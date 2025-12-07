@@ -11,9 +11,6 @@ LLIL_LIFTER(core_mem_load)
 {
     switch (insn.id)
     {
-        // L8UI - Load 8-bit Unsigned Immediate
-        // Operation: AR[t] = zeroExtend(mem8[AR[s] + imm8])
-        // Format: L8UI at, as, 0..255
         case XTENSA_INS_L8UI:
         {
             if (insn.operand_count != 2)
@@ -48,9 +45,6 @@ LLIL_LIFTER(core_mem_load)
             return true;
         }
 
-        // L16SI - Load 16-bit Signed Immediate
-        // Operation: AR[t] = signExtend(mem16[AR[s] + (imm8 << 1)])
-        // Format: L16SI at, as, 0..510
         case XTENSA_INS_L16SI:
         {
             if (insn.operand_count != 2) {
@@ -83,9 +77,6 @@ LLIL_LIFTER(core_mem_load)
             return true;
         }
 
-        // L16UI - Load 16-bit Unsigned Immediate
-        // Operation: AR[t] = zeroExtend(mem16[AR[s] + (imm8 << 1)])
-        // Format: L16UI at, as, 0..510
         case XTENSA_INS_L16UI:
         {
             if (insn.operand_count != 2)
@@ -120,8 +111,6 @@ LLIL_LIFTER(core_mem_load)
             return true;
         }
 
-        // L32I - Load 32-bit
-        // Operation: AR[t] = Mem32[AR[s] + (imm8 << 2)]
         case XTENSA_INS_L32I:
         {
             if (insn.operand_count != 2)
@@ -156,8 +145,6 @@ LLIL_LIFTER(core_mem_load)
             return true;
         }
 
-        // L32R - Load 32-bit PC-relative
-        // Operation: AR[t] = Mem32[(PC + 3 & 0xFFFFFFFC) + (sign_extend_ones(imm16) << 2)]
         case XTENSA_INS_L32R:
         {
             if (insn.operand_count != 2)

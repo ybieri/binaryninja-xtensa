@@ -11,8 +11,6 @@ LLIL_LIFTER(core_arithmetic)
 {
     switch (insn.id)
     {
-        // ADD - Add two registers
-        // Operation: AR[r] = AR[s] + AR[t]
         case XTENSA_INS_ADD:
         {
             if (insn.operand_count != 3)
@@ -44,8 +42,6 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        // ADDX2 - Add with shift by 1
-        // Operation: AR[r] = (AR[s] << 1) + AR[t]
         case XTENSA_INS_ADDX2:
         {
             if (insn.operand_count != 3)
@@ -81,9 +77,6 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        // ADDX4 - Add with shift by 2
-        // Operation: AR[r] = (AR[s] << 2) + AR[t]
-        // Format: ADDX4 ar, as, at
         case XTENSA_INS_ADDX4:
         {
             if (insn.operand_count != 3)
@@ -119,9 +112,6 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        // ADDX8 - Add with shift by 3
-        // Operation: AR[r] = (AR[s] << 3) + AR[t]
-        // Format: ADDX8 ar, as, at
         case XTENSA_INS_ADDX8:
         {
             if (insn.operand_count != 3)
@@ -157,8 +147,6 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        // SUB - Subtract two registers
-        // Operation: AR[r] = AR[s] - AR[t]
         case XTENSA_INS_SUB:
         {
             if (insn.operand_count != 3)
@@ -190,9 +178,6 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        // SUBX2 - Subtract with shift by 1
-        // Operation: AR[r] = (AR[s] << 1) - AR[t]
-        // Format: SUBX2 ar, as, at
         case XTENSA_INS_SUBX2:
         {
             if (insn.operand_count != 3)
@@ -228,9 +213,6 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        // SUBX4 - Subtract with shift by 2
-        // Operation: AR[r] = (AR[s] << 2) - AR[t]
-        // Format: SUBX4 ar, as, at
         case XTENSA_INS_SUBX4:
         {
             if (insn.operand_count != 3)
@@ -266,9 +248,6 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        // SUBX8 - Subtract with shift by 3
-        // Operation: AR[r] = (AR[s] << 3) - AR[t]
-        // Format: SUBX8 ar, as, at
         case XTENSA_INS_SUBX8:
         {
             if (insn.operand_count != 3)
@@ -304,9 +283,6 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        // NEG - Negate
-        // Operation: AR[r] = 0 - AR[t]
-        // Format: NEG ar, at
         case XTENSA_INS_NEG:
         {
             if (insn.operand_count != 2)
@@ -336,9 +312,6 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        // ABS - Absolute Value
-        // Operation: AR[r] = if AR[t]31 then -AR[t] else AR[t]
-        // Format: ABS ar, at
         case XTENSA_INS_ABS:
         {
             if (insn.operand_count != 2)
@@ -390,8 +363,6 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        // ADDI - Add immediate to register
-        // Operation: AR[t] = AR[s] + sign_extend(imm8)
         case XTENSA_INS_ADDI:
         {
             if (insn.operand_count != 3)
@@ -423,9 +394,6 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        // ADDMI - Add Immediate with Shift by 8
-        // Operation: AR[t] = AR[s] + (sign_extend(imm8) << 8)
-        // Format: ADDMI at, as, -32768..32512
         case XTENSA_INS_ADDMI:
         {
             if (insn.operand_count != 3)

@@ -11,9 +11,6 @@ LLIL_LIFTER(core_mem_store)
 {
     switch (insn.id)
     {
-        // S8I - Store 8-bit
-        // Operation: mem8[AR[s] + imm8] = AR[t][7:0]
-        // Format: S8I at, as, 0..255
         case XTENSA_INS_S8I:
         {
             if (insn.operand_count != 2)
@@ -44,9 +41,6 @@ LLIL_LIFTER(core_mem_store)
             return true;
         }
 
-        // S16I - Store 16-bit
-        // Operation: mem16[AR[s] + (imm8 << 1)] = AR[t][15:0]
-        // Format: S16I at, as, 0..510
         case XTENSA_INS_S16I:
         {
             if (insn.operand_count != 2)
@@ -77,8 +71,6 @@ LLIL_LIFTER(core_mem_store)
             return true;
         }
 
-        // S32I - Store 32-bit
-        // Operation: Mem32[AR[s] + (imm8 << 2)] = AR[t]
         case XTENSA_INS_S32I:
         {
             if (insn.operand_count != 2)
@@ -109,9 +101,6 @@ LLIL_LIFTER(core_mem_store)
             return true;
         }
 
-        // SSI - Store Single Immediate (Floating-point)
-        // Operation: Memory[as + imm8*4] = ft
-        // Format: SSI ft, as, imm*4
         case XTENSA_INS_SSI:
         {
             if (insn.operand_count != 2)

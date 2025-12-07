@@ -11,9 +11,6 @@ LLIL_LIFTER(core_mem_order)
 {
     switch (insn.id)
     {
-        // MEMW - Memory Write Barrier
-        // Operation: Ensures all memory references before MEMW complete before any after
-        // Format: MEMW (no operands)
         case XTENSA_INS_MEMW:
         {
             // MEMW is a memory fence/barrier instruction
@@ -24,9 +21,6 @@ LLIL_LIFTER(core_mem_order)
             return true;
         }
 
-        // EXTW - External Wait
-        // Operation: Ensures all previous memory accesses complete before continuing
-        // Format: EXTW (no operands)
         case XTENSA_INS_EXTW:
         {
             // EXTW is an external wait/barrier instruction

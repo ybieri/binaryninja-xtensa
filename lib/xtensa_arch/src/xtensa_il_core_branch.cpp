@@ -12,9 +12,6 @@ LLIL_LIFTER(core_branch)
 {
     switch (insn.id)
     {
-        // BEQZ - Branch if Equal to Zero
-        // Operation: if (AR[s] == 0) PC = PC + 4 + imm; else PC = PC + 3
-        // Format: BEQZ as, imm
         case XTENSA_INS_BEQZ:
         {
             if (insn.operand_count != 2)
@@ -54,9 +51,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BNEZ - Branch if Not Equal to Zero
-        // Operation: if (AR[s] != 0) PC = PC + 4 + imm; else PC = PC + 3
-        // Format: BNEZ as, imm
         case XTENSA_INS_BNEZ:
         {
             if (insn.operand_count != 2)
@@ -96,9 +90,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BGEZ - Branch if Greater Than or Equal to Zero
-        // Operation: if (AR[s] >= 0) PC = PC + 4 + imm; else PC = PC + 3
-        // Format: BGEZ as, imm
         case XTENSA_INS_BGEZ:
         {
             if (insn.operand_count != 2)
@@ -138,9 +129,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BLTZ - Branch if Less Than Zero
-        // Operation: if (AR[s] < 0) PC = PC + 4 + imm; else PC = PC + 3
-        // Format: BLTZ as, imm
         case XTENSA_INS_BLTZ:
         {
             if (insn.operand_count != 2)
@@ -180,9 +168,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BEQI - Branch if Equal Immediate
-        // Operation: if (AR[s] == B4CONST[r]) PC = PC + 4 + sign_extend(imm8)
-        // Format: BEQI as, b4const, offset
         case XTENSA_INS_BEQI:
         {
             if (insn.operand_count != 3)
@@ -229,9 +214,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BNEI - Branch if Not Equal Immediate
-        // Operation: if (AR[s] != B4CONST[r]) PC = PC + 4 + sign_extend(imm8)
-        // Format: BNEI as, b4const, offset
         case XTENSA_INS_BNEI:
         {
             if (insn.operand_count != 3)
@@ -278,9 +260,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BGEI - Branch if Greater Than or Equal Immediate
-        // Operation: if (AR[s] >= imm) PC = PC + 4 + offset; else PC = PC + 3
-        // Format: BGEI as, imm, offset
         case XTENSA_INS_BGEI:
         {
             if (insn.operand_count != 3)
@@ -327,9 +306,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BLTI - Branch if Less Than Immediate
-        // Operation: if (AR[s] < imm) PC = PC + 4 + offset; else PC = PC + 3
-        // Format: BLTI as, imm, offset
         case XTENSA_INS_BLTI:
         {
             if (insn.operand_count != 3)
@@ -376,9 +352,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BGEUI - Branch if Greater Than or Equal Unsigned Immediate
-        // Operation: if (AR[s] >= b4constu[r]) PC = PC + 4 + sign_extend(imm8)
-        // Format: BGEUI as, b4constu, offset
         case XTENSA_INS_BGEUI:
         {
             if (insn.operand_count != 3)
@@ -425,9 +398,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BLTUI - Branch if Less Than Unsigned Immediate
-        // Operation: if (AR[s] < b4constu[r]) PC = PC + 4 + sign_extend(imm8)
-        // Format: BLTUI as, b4constu, offset
         case XTENSA_INS_BLTUI:
         {
             if (insn.operand_count != 3)
@@ -474,9 +444,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BBCI - Branch if Bit Clear Immediate
-        // Operation: if (AR[s][bit] == 0) PC = PC + 4 + sign_extend(imm8)
-        // Format: BBCI as, bit_imm, offset
         case XTENSA_INS_BBCI:
         {
             if (insn.operand_count != 3)
@@ -538,9 +505,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BBSI - Branch if Bit Set Immediate
-        // Operation: if (AR[s][bit] == 1) PC = PC + 4 + sign_extend(imm8)
-        // Format: BBSI as, bit_imm, offset
         case XTENSA_INS_BBSI:
         {
             if (insn.operand_count != 3)
@@ -602,9 +566,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BEQ - Branch if Equal
-        // Operation: if (AR[s] == AR[t]) PC = PC + 4 + sign_extend(imm8)
-        // Format: BEQ as, at, offset
         case XTENSA_INS_BEQ:
         {
             if (insn.operand_count != 3)
@@ -651,9 +612,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BNE - Branch if Not Equal
-        // Operation: if (AR[s] != AR[t]) PC = PC + 4 + sign_extend(imm8)
-        // Format: BNE as, at, offset
         case XTENSA_INS_BNE:
         {
             if (insn.operand_count != 3)
@@ -700,9 +658,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BGE - Branch if Greater Than or Equal (signed)
-        // Operation: if (AR[s] >= AR[t]) PC = PC + 4 + sign_extend(imm8)
-        // Format: BGE as, at, offset
         case XTENSA_INS_BGE:
         {
             if (insn.operand_count != 3)
@@ -749,9 +704,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BLT - Branch if Less Than (signed)
-        // Operation: if (AR[s] < AR[t]) PC = PC + 4 + sign_extend(imm8)
-        // Format: BLT as, at, offset
         case XTENSA_INS_BLT:
         {
             if (insn.operand_count != 3)
@@ -798,9 +750,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BGEU - Branch if Greater Than or Equal Unsigned
-        // Operation: if (AR[s] >= AR[t] unsigned) PC = PC + 4 + sign_extend(imm8)
-        // Format: BGEU as, at, offset
         case XTENSA_INS_BGEU:
         {
             if (insn.operand_count != 3)
@@ -847,9 +796,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BLTU - Branch if Less Than Unsigned
-        // Operation: if (AR[s] < AR[t] unsigned) PC = PC + 4 + sign_extend(imm8)
-        // Format: BLTU as, at, offset
         case XTENSA_INS_BLTU:
         {
             if (insn.operand_count != 3)
@@ -896,9 +842,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BANY - Branch if Any bit set
-        // Operation: if ((AR[s] & AR[t]) != 0) PC = target
-        // Format: BANY as, at, offset
         case XTENSA_INS_BANY:
         {
             if (insn.operand_count != 3)
@@ -938,9 +881,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BNONE - Branch if None (bitwise AND == 0)
-        // Operation: if ((AR[s] & AR[t]) == 0) PC = PC + 4 + sign_extend(imm8)
-        // Format: BNONE as, at, offset
         case XTENSA_INS_BNONE:
         {
             if (insn.operand_count != 3)
@@ -993,9 +933,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BALL - Branch if All bits set
-        // Operation: if ((AR[s] & AR[t]) == AR[t]) PC = target
-        // Format: BALL as, at, offset
         case XTENSA_INS_BALL:
         {
             if (insn.operand_count != 3)
@@ -1035,9 +972,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BNALL - Branch if Not All bits set
-        // Operation: if ((AR[s] & AR[t]) != AR[t]) PC = target
-        // Format: BNALL as, at, offset
         case XTENSA_INS_BNALL:
         {
             if (insn.operand_count != 3)
@@ -1077,9 +1011,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BBC - Branch if Bit Clear (register bit position)
-        // Operation: if ((AR[s] >> (AR[t] & 0x1F)) & 1 == 0) PC = target
-        // Format: BBC as, at, offset
         case XTENSA_INS_BBC:
         {
             if (insn.operand_count != 3)
@@ -1123,9 +1054,6 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        // BBS - Branch if Bit Set (register bit position)
-        // Operation: if ((AR[s] >> (AR[t] & 0x1F)) & 1 == 1) PC = target
-        // Format: BBS as, at, offset
         case XTENSA_INS_BBS:
         {
             if (insn.operand_count != 3)

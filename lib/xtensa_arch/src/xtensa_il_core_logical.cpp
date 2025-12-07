@@ -11,8 +11,6 @@ LLIL_LIFTER(core_logical)
 {
     switch (insn.id)
     {
-        // AND - Bitwise AND two registers
-        // Operation: AR[r] = AR[s] & AR[t]
         case XTENSA_INS_AND:
         {
             if (insn.operand_count != 3)
@@ -44,8 +42,6 @@ LLIL_LIFTER(core_logical)
             return true;
         }
 
-        // OR - Bitwise OR two registers
-        // Operation: AR[r] = AR[s] | AR[t]
         case XTENSA_INS_OR:
         {
             if (insn.operand_count != 3)
@@ -77,8 +73,6 @@ LLIL_LIFTER(core_logical)
             return true;
         }
 
-        // XOR - Bitwise XOR two registers
-        // Operation: AR[r] = AR[s] ^ AR[t]
         case XTENSA_INS_XOR:
         {
             if (insn.operand_count != 3)

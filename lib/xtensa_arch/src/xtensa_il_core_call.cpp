@@ -12,9 +12,6 @@ LLIL_LIFTER(core_call)
 {
     switch (insn.id)
     {
-        // CALL0 - Call with register window increment 0
-        // Operation: AR[0] = PC + 3; PC = PC + 4 + (offset << 2)
-        // Format: CALL0 offset
         case XTENSA_INS_CALL0:
         {
             if (insn.operand_count != 1)
@@ -39,9 +36,6 @@ LLIL_LIFTER(core_call)
             return true;
         }
 
-        // CALLX0 - Call Register Indirect
-        // Operation: AR[0] = PC + 3; PC = AR[s]
-        // Format: CALLX0 as
         case XTENSA_INS_CALLX0:
         {
             if (insn.operand_count != 1)
@@ -66,9 +60,6 @@ LLIL_LIFTER(core_call)
             return true;
         }
 
-        // RET - Return
-        // Operation: PC = AR[0]
-        // Format: RET
         case XTENSA_INS_RET:
         {
             il.AddInstruction(il.Return(

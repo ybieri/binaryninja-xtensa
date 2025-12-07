@@ -11,9 +11,6 @@ LLIL_LIFTER(core_shift)
 {
     switch (insn.id)
     {
-        // EXTUI - Extract Unsigned Immediate
-        // Operation: AR[r] = (AR[t] >> shiftimm) & ((1 << maskimm) - 1)
-        // Format: EXTUI ar, at, shiftimm, maskimm
         case XTENSA_INS_EXTUI:
         {
             if (insn.operand_count != 4)
@@ -68,9 +65,6 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // SLLI - Shift Left Logical Immediate
-        // Operation: AR[r] = AR[s] << sa
-        // Format: SLLI ar, as, 1..31
         case XTENSA_INS_SLLI:
         {
             if (insn.operand_count != 3)
@@ -111,9 +105,6 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // SRLI - Shift Right Logical Immediate
-        // Operation: AR[r] = AR[t] >> sa (logical shift, zero-fill)
-        // Format: SRLI ar, at, 0..15
         case XTENSA_INS_SRLI:
         {
             if (insn.operand_count != 3)
@@ -154,9 +145,6 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // SRAI - Shift Right Arithmetic Immediate
-        // Operation: AR[r] = AR[t] >> sa (arithmetic shift, sign-extend)
-        // Format: SRAI ar, at, 0..31
         case XTENSA_INS_SRAI:
         {
             if (insn.operand_count != 3)
@@ -197,10 +185,6 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // SRC - Shift Right Combined (Funnel Shift)
-        // Operation: AR[r] = (AR[s] concat AR[t]) >> SAR
-        // This is a 64-bit funnel shift taking high 32 bits from AR[s] and low 32 bits from AR[t]
-        // Format: SRC ar, as, at
         case XTENSA_INS_SRC:
         {
             if (insn.operand_count != 3)
@@ -251,9 +235,6 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // SRA - Shift Right Arithmetic (by SAR)
-        // Operation: AR[r] = (signed)AR[t] >> SAR
-        // Format: SRA ar, at
         case XTENSA_INS_SRA:
         {
             if (insn.operand_count != 2)
@@ -281,10 +262,6 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // SLL - Shift Left Logical
-        // Operation: AR[r] = AR[s] << SAR[5:0]
-        // Format: SLL ar, as
-        // Note: SAR register must be set by SSL instruction before SLL
         case XTENSA_INS_SLL:
         {
             if (insn.operand_count != 2)
@@ -347,9 +324,6 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // SRL - Shift Right Logical (by SAR)
-        // Operation: AR[r] = AR[t] >> SAR (zero-fill)
-        // Format: SRL ar, at
         case XTENSA_INS_SRL:
         {
             if (insn.operand_count != 2)
@@ -409,10 +383,6 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // SSA8L - Set Shift Amount for Little-endian Byte Align
-        // Operation: SAR = AR[s][1:0] << 3
-        // Used for little-endian byte alignment operations
-        // Format: SSA8L as
         case XTENSA_INS_SSA8L:
         {
             if (insn.operand_count != 1)
@@ -439,10 +409,6 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // SSR - Set Shift Amount for Right Shift
-        // Operation: SAR = AR[s][4:0]
-        // Sets shift amount register for subsequent SRL/SRA instructions
-        // Format: SSR as
         case XTENSA_INS_SSR:
         {
             if (insn.operand_count != 1)
@@ -467,10 +433,6 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // SSL - Set Shift Amount for Left Shift
-        // Operation: SAR = 32 - AR[s][4:0]
-        // Sets shift amount register for subsequent SLL instruction
-        // Format: SSL as
         case XTENSA_INS_SSL:
         {
             if (insn.operand_count != 1)
@@ -497,10 +459,6 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // SSAI - Set Shift Amount Immediate
-        // Operation: SAR = imm5
-        // Sets shift amount register to immediate value
-        // Format: SSAI 0..31
         case XTENSA_INS_SSAI:
         {
             if (insn.operand_count != 1)

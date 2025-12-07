@@ -15,9 +15,6 @@ LLIL_LIFTER(opt_boolean)
 {
     switch (insn.id)
     {
-        // BT - Branch if True (Boolean Option)
-        // Operation: if (BR[bs]) then PC = target
-        // Format: BT bs, target
         case XTENSA_INS_BT:
         {
             if (insn.operand_count != 2 ||
@@ -43,9 +40,6 @@ LLIL_LIFTER(opt_boolean)
             return true;
         }
 
-        // BF - Branch if False (Boolean Option)
-        // Operation: if (!BR[bs]) then PC = target
-        // Format: BF bs, target
         case XTENSA_INS_BF:
         {
             if (insn.operand_count != 2 ||

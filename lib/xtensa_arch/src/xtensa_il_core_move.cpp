@@ -11,8 +11,6 @@ LLIL_LIFTER(core_move)
 {
     switch (insn.id)
     {
-        // MOVI - Move immediate to register
-        // Operation: AR[t] = sign_extend(imm12)
         case XTENSA_INS_MOVI:
         {
             if (insn.operand_count != 2)
@@ -38,9 +36,6 @@ LLIL_LIFTER(core_move)
             return true;
         }
 
-        // MOVEQZ - Move if Equal to Zero
-        // Operation: if (AR[t] == 0) AR[r] = AR[s]
-        // Format: MOVEQZ ar, as, at
         case XTENSA_INS_MOVEQZ:
         {
             if (insn.operand_count != 3)
@@ -89,9 +84,6 @@ LLIL_LIFTER(core_move)
             return true;
         }
 
-        // MOVNEZ - Move if Not Equal to Zero
-        // Operation: if (AR[t] != 0) AR[r] = AR[s]
-        // Format: MOVNEZ ar, as, at
         case XTENSA_INS_MOVNEZ:
         {
             if (insn.operand_count != 3)
@@ -140,9 +132,6 @@ LLIL_LIFTER(core_move)
             return true;
         }
 
-        // MOVLTZ - Move if Less Than Zero
-        // Operation: if (AR[t] < 0) AR[r] = AR[s]
-        // Format: MOVLTZ ar, as, at
         case XTENSA_INS_MOVLTZ:
         {
             if (insn.operand_count != 3)
@@ -186,9 +175,6 @@ LLIL_LIFTER(core_move)
             return true;
         }
 
-        // MOVGEZ - Move if Greater or Equal to Zero
-        // Operation: if (AR[t] >= 0) AR[r] = AR[s]
-        // Format: MOVGEZ ar, as, at
         case XTENSA_INS_MOVGEZ:
         {
             if (insn.operand_count != 3)

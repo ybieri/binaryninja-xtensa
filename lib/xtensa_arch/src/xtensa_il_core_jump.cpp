@@ -12,9 +12,6 @@ LLIL_LIFTER(core_jump)
 {
     switch (insn.id)
     {
-        // J - Unconditional Jump
-        // Operation: PC = PC + 4 + imm
-        // Format: J imm
         case XTENSA_INS_J:
         {
             if (insn.operand_count != 1)
