@@ -89,7 +89,7 @@ LLIL_LIFTER(core_shift)
             // Validate shift amount range (should be 1-31, 0 is undefined/reserved)
             if (shift_amount < 1 || shift_amount > 31)
             {
-                LogWarn("SLLI instruction at 0x%" PRIx64 " has invalid shift amount: %d", addr, shift_amount);
+                LogDebug("SLLI instruction at 0x%" PRIx64 " has invalid shift amount: %d", addr, shift_amount);
                 il.AddInstruction(il.Undefined());
                 return true;
             }

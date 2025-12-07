@@ -14,13 +14,13 @@ using namespace std;
 
 enum XtensaRegister
 {
-    REG_PC = 0,
-
     // General Purpose Registers
     REG_A0, REG_A1, REG_A2, REG_A3,
     REG_A4, REG_A5, REG_A6, REG_A7,
     REG_A8, REG_A9, REG_A10, REG_A11,
     REG_A12, REG_A13, REG_A14, REG_A15,
+
+    REG_PC = 0,
 
     // Shift Amount Register
     REG_SAR,
@@ -38,12 +38,12 @@ enum XtensaRegister
 };
 
 static const char* XtensaRegisterNames[] = {
-    "pc",
-
     "a0", "a1", "a2", "a3",
     "a4", "a5", "a6", "a7",
     "a8", "a9", "a10", "a11",
     "a12", "a13", "a14", "a15",
+
+    "pc",
 
     "sar",
 
