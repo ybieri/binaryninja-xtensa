@@ -9,19 +9,20 @@
 
 LLIL_LIFTER(opt_interrupt)
 {
-    switch (insn.id)
-    {
-        // TODO: XTENSA_INS_RSIL unimplemented in decoder
-        // case XTENSA_INS_RSIL: { ... }
+	switch (insn.id)
+	{
+		// TODO: XTENSA_INS_RSIL unimplemented in decoder
+		// case XTENSA_INS_RSIL: { ... }
 
-        // TODO: XTENSA_INS_WAITI unimplemented in decoder
-        // case XTENSA_INS_WAITI: { ... }
+		// TODO: XTENSA_INS_WAITI unimplemented in decoder
+		// case XTENSA_INS_WAITI: { ... }
 
-        // TODO: XTENSA_INS_RFI unimplemented in decoder
-        // case XTENSA_INS_RFI: { ... }
+		// TODO: XTENSA_INS_RFI unimplemented in decoder
+		// case XTENSA_INS_RFI: { ... }
 
-        default: break;
-    }
+	default:
+		break;
+	}
 
-    return false;
+	return false;
 }

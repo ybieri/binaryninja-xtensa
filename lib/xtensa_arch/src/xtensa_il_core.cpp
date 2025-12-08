@@ -3,20 +3,21 @@
 
 LLIL_LIFTER(core)
 {
-    switch (insn.id)
-    {
-        // TODO: XTENSA_INS_WER not implemented in decoder
-        // case XTENSA_INS_WER:
-        // { ... }
+	switch (insn.id)
+	{
+		// TODO: XTENSA_INS_WER not implemented in decoder
+		// case XTENSA_INS_WER:
+		// { ... }
 
-        case XTENSA_INS_ILL:
-        {
-            il.AddInstruction(il.Undefined());
-            return true;
-        }
+	case XTENSA_INS_ILL:
+	{
+		il.AddInstruction(il.Undefined());
+		return true;
+	}
 
-        default: break;
-    }
+	default:
+		break;
+	}
 
-    return false;
+	return false;
 }

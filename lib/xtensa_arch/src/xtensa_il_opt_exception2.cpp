@@ -9,30 +9,31 @@
 
 LLIL_LIFTER(opt_exception2)
 {
-    switch (insn.id)
-    {
-        // TODO: XTENSA_INS_EXCW unimplemented in decoder
-        // case XTENSA_INS_EXCW: { ... }
+	switch (insn.id)
+	{
+		// TODO: XTENSA_INS_EXCW unimplemented in decoder
+		// case XTENSA_INS_EXCW: { ... }
 
-        case XTENSA_INS_SYSCALL:
-        {
-            // TODO: need implementation
-            il.AddInstruction(il.Unimplemented());
-            return true;
-        }
+	case XTENSA_INS_SYSCALL:
+	{
+		// TODO: need implementation
+		il.AddInstruction(il.Unimplemented());
+		return true;
+	}
 
-        case XTENSA_INS_RFE:
-        {
-            // TODO: need implementation
-            il.AddInstruction(il.Unimplemented());
-            return true;
-        }
+	case XTENSA_INS_RFE:
+	{
+		// TODO: need implementation
+		il.AddInstruction(il.Unimplemented());
+		return true;
+	}
 
-        // TODO: XTENSA_INS_RFDE unimplemented in decoder
-        // case XTENSA_INS_RFDE: { ... }
+		// TODO: XTENSA_INS_RFDE unimplemented in decoder
+		// case XTENSA_INS_RFDE: { ... }
 
-        default: break;
-    }
+	default:
+		break;
+	}
 
-    return false;
+	return false;
 }

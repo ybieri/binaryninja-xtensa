@@ -9,17 +9,18 @@
 
 LLIL_LIFTER(opt_depbits)
 {
-    switch (insn.id)
-    {
-        case XTENSA_INS_DEPBITS:
-        {
-            // TODO: need implementation
-            il.AddInstruction(il.Unimplemented());
-            return true;
-        }
+	switch (insn.id)
+	{
+	case XTENSA_INS_DEPBITS:
+	{
+		// TODO: need implementation
+		il.AddInstruction(il.Unimplemented());
+		return true;
+	}
 
-        default: break;
-    }
+	default:
+		break;
+	}
 
-    return false;
+	return false;
 }
