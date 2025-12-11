@@ -25,10 +25,10 @@ int decode_narrow(const uint8_t* data, uint64_t addr, XtensaInstruction* insn, u
 	insn->raw = raw;
 	insn->length = 2;
 
-	uint8_t op0 = raw & 0x0F;
-	uint8_t t = (raw >> 4) & 0x0F;
-	uint8_t s = (raw >> 8) & 0x0F;
-	uint8_t r = (raw >> 12) & 0x0F;
+	uint32_t op0 = raw & 0x0F;
+	uint32_t t = (raw >> 4) & 0x0F;
+	uint32_t s = (raw >> 8) & 0x0F;
+	uint32_t r = (raw >> 12) & 0x0F;
 
 	switch (op0)
 	{

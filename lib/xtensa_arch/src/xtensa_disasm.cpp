@@ -129,13 +129,9 @@ void AddOperandTokens(std::vector<InstructionTextToken>& result, const XtensaOpe
 		// Format: L32I a2, a1, 4  (destination, base, offset)
 		snprintf(buf, sizeof(buf), "a%u", op.mem.base);
 		result.emplace_back(RegisterToken, buf);
-
-		if (op.mem.offset != 0)
-		{
-			result.emplace_back(OperandSeparatorToken, ", ");
-			snprintf(buf, sizeof(buf), "%d", op.mem.offset);
-			result.emplace_back(IntegerToken, buf, op.mem.offset, 4);
-		}
+		result.emplace_back(OperandSeparatorToken, ", ");
+		snprintf(buf, sizeof(buf), "%d", op.mem.offset);
+		result.emplace_back(IntegerToken, buf, op.mem.offset, 4);
 		break;
 
 	case XTENSA_OP_BRANCH_TARGET:
