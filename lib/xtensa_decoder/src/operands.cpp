@@ -129,9 +129,7 @@ uint64_t calc_call_target_operand(uint64_t pc, uint32_t offset, int bits)
 
 uint64_t calc_l32r_target_operand(uint64_t pc, uint32_t imm)
 {
-	// One-extend: shift imm left by 2 (word to byte), fill upper 14 bits with 1s
 	int32_t offset = (imm << 2) | 0xFFFC0000;
-	// Align PC to 4-byte boundary, then apply offset
-	uint64_t vaddr = (pc & ~3) + offset;
+	uint64_t vaddr = ((pc + 3) & 0xFFFFFFFC) + offset;
 	return vaddr;
 }
