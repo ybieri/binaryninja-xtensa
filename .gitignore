@@ -3,3 +3,4 @@ build/
 .vscodium/
 .cache/
 .DS_Store
+CLAUDE.md

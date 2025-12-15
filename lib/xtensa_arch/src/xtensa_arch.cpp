@@ -449,7 +449,7 @@ uint32_t XtensaCallingConvention::GetHighIntegerReturnValueRegister()
 class XtensaPlatform : public Platform
 {
 public:
-	XtensaPlatform(Architecture* arch) : Platform(arch, "xtensa")
+	XtensaPlatform(Architecture* arch, const std::string& name) : Platform(arch, name)
 	{
 		Ref<CallingConvention> cc;
 		cc = arch->GetCallingConventionByName("default");
@@ -472,7 +472,7 @@ public:
 
 		for (auto& arg : arguments)
 		{
-			if (arg.find("--target=") == 0 && arg.find("-unknown-") != std::string::npos)
+			if (arg.find("--target=xtensa") == 0)
 			{
 				arg = "--target=i386-unknown-unknown-unknown";
 			}
@@ -521,9 +521,9 @@ extern "C"
 		xtensa_esp8266->SetDefaultCallingConvention(esp8266DefaultCC);
 
 		// Register platforms
-		Ref<Platform> platformCore = new XtensaPlatform(xtensa_core);
-		Ref<Platform> platformEsp32 = new XtensaPlatform(xtensa_esp32);
-		Ref<Platform> platformEsp8266 = new XtensaPlatform(xtensa_esp8266);
+		Ref<Platform> platformCore = new XtensaPlatform(xtensa_core, "xtensa");
+		Ref<Platform> platformEsp32 = new XtensaPlatform(xtensa_esp32, "xtensa-esp32");
+		Ref<Platform> platformEsp8266 = new XtensaPlatform(xtensa_esp8266, "xtensa-esp8266");
 
 		Platform::Register("xtensa", platformCore);
 		Platform::Register("xtensa-esp32", platformEsp32);
