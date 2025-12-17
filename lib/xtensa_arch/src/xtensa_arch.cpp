@@ -576,7 +576,16 @@ extern "C"
          * Register ESP32 architecture & platform
          */
 
-        Architecture* esp32_arch = new XtensaArchitecture("esp32", LittleEndian, XTENSA_PRESET_ESP32);
+        Architecture* esp32_arch = new XtensaArchitecture(
+            "esp32",
+            LittleEndian, 
+            (
+                XTENSA_OPT_CODE_DENSITY | XTENSA_OPT_LOOP | XTENSA_OPT_BOOLEAN | XTENSA_OPT_WINDOWED |
+                XTENSA_OPT_MUL32 | XTENSA_OPT_MUL16 | XTENSA_OPT_DIV32 | XTENSA_OPT_MAC16 |
+                XTENSA_OPT_FP | XTENSA_OPT_COND_STORE | XTENSA_OPT_MISC | XTENSA_OPT_EXCEPTION2 |
+                XTENSA_OPT_DEBUG
+            )
+        );
         Architecture::Register(esp32_arch);
 
         Ref<CallingConvention> esp32_cc_default = new XtensaCallingConvention(esp32_arch);
@@ -594,7 +603,14 @@ extern "C"
          * Register ESP8266 architecture & platform
          */
 
-        Architecture* esp8266_arch = new XtensaArchitecture("esp8266", LittleEndian, XTENSA_PRESET_ESP8266);
+        Architecture* esp8266_arch = new XtensaArchitecture(
+            "esp8266",
+            LittleEndian, 
+            (
+                XTENSA_OPT_CODE_DENSITY | XTENSA_OPT_MUL32 | XTENSA_OPT_MUL16 | XTENSA_OPT_MISC |
+                XTENSA_OPT_EXCEPTION2 | XTENSA_OPT_DEBUG
+            )
+        );
         Architecture::Register(esp8266_arch);
 
         Ref<CallingConvention> esp8266_cc_default = new XtensaCallingConvention(esp8266_arch);

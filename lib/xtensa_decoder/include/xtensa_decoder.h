@@ -30,33 +30,6 @@ enum XtensaOption : uint32_t
 };
 
 
-constexpr uint32_t XTENSA_PRESET_ESP8266 = (
-    XTENSA_OPT_CODE_DENSITY |
-    XTENSA_OPT_MUL32        |
-    XTENSA_OPT_MUL16        |
-    XTENSA_OPT_MISC         |
-    XTENSA_OPT_EXCEPTION2   |
-    XTENSA_OPT_DEBUG
-);
-
-
-constexpr uint32_t XTENSA_PRESET_ESP32 = (
-    XTENSA_OPT_CODE_DENSITY |
-    XTENSA_OPT_LOOP         |
-    XTENSA_OPT_BOOLEAN      |
-    XTENSA_OPT_WINDOWED     |
-    XTENSA_OPT_MUL32        |
-    XTENSA_OPT_MUL16        |
-    XTENSA_OPT_DIV32        |
-    XTENSA_OPT_MAC16        |
-    XTENSA_OPT_FP           |
-    XTENSA_OPT_COND_STORE   |
-    XTENSA_OPT_MISC         |
-    XTENSA_OPT_EXCEPTION2   |
-    XTENSA_OPT_DEBUG
-);
-
-
 //-----------------------------------------------------------------------------
 // Instructions
 //-----------------------------------------------------------------------------
