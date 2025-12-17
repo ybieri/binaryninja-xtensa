@@ -1,6 +1,7 @@
 #pragma once
 
 #include "binaryninjaapi.h"
+#include "binaryninjacore.h"
 
 
 using namespace BinaryNinja;
@@ -193,16 +194,22 @@ public:
 // Calling Convention
 //-----------------------------------------------------------------------------
 
-// Default calling convention (CALL0 ABI / Callee perspective for all calls)
-// Parameters: a2-a7, Return: a2
-//
-// Note: Windowed calls (CALL4/8/12, CALLX4/8/12) use ILTransparentCopy attribute
-// for register rotation in LLIL, allowing Binary Ninja to follow through the
-// rotation for proper parameter inference. All functions use this default CC.
-class XtensaCallingConvention : public CallingConvention
+class XtensaDefaultCallingConvention : public CallingConvention
 {
 public:
-	XtensaCallingConvention(Architecture* arch);
+	XtensaDefaultCallingConvention(Architecture* arch);
+
+	virtual vector<uint32_t> GetIntegerArgumentRegisters() override;
+	virtual vector<uint32_t> GetCallerSavedRegisters() override;
+	virtual vector<uint32_t> GetCalleeSavedRegisters() override;
+	virtual uint32_t GetIntegerReturnValueRegister() override;
+	virtual uint32_t GetHighIntegerReturnValueRegister() override;
+};
+
+class XtensaWindowedCallingConvention : public CallingConvention
+{
+public:
+	XtensaWindowedCallingConvention(Architecture* arch);
 
 	virtual vector<uint32_t> GetIntegerArgumentRegisters() override;
 	virtual vector<uint32_t> GetCallerSavedRegisters() override;

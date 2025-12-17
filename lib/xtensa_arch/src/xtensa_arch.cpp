@@ -411,34 +411,65 @@ vector<Confidence<Ref<Type>>> XtensaArchitecture::GetIntrinsicOutputs(uint32_t i
 // Calling Convention Implementation
 //-----------------------------------------------------------------------------
 
-XtensaCallingConvention::XtensaCallingConvention(Architecture* arch) : CallingConvention(arch, "default") {}
+/* default */
 
-vector<uint32_t> XtensaCallingConvention::GetIntegerArgumentRegisters()
+XtensaDefaultCallingConvention::XtensaDefaultCallingConvention(Architecture* arch) : CallingConvention(arch, "default") {}
+
+vector<uint32_t> XtensaDefaultCallingConvention::GetIntegerArgumentRegisters()
 {
 	// Xtensa uses a2-a7 for arguments (CALL0 ABI)
 	return vector<uint32_t> {REG_A2, REG_A3, REG_A4, REG_A5, REG_A6, REG_A7};
 }
 
-vector<uint32_t> XtensaCallingConvention::GetCallerSavedRegisters()
+vector<uint32_t> XtensaDefaultCallingConvention::GetCallerSavedRegisters()
 {
 	// a0 (return address), a2-a11 are caller-saved
 	return vector<uint32_t> {REG_A0, REG_A2, REG_A3, REG_A4, REG_A5, REG_A6, REG_A7, REG_A8, REG_A9, REG_A10, REG_A11};
 }
 
-vector<uint32_t> XtensaCallingConvention::GetCalleeSavedRegisters()
+vector<uint32_t> XtensaDefaultCallingConvention::GetCalleeSavedRegisters()
 {
 	// a12-a15 are callee-saved
 	return vector<uint32_t> {REG_A12, REG_A13, REG_A14, REG_A15};
 }
 
-uint32_t XtensaCallingConvention::GetIntegerReturnValueRegister()
+uint32_t XtensaDefaultCallingConvention::GetIntegerReturnValueRegister()
 {
 	return REG_A2;  // a2 holds return value
 }
 
-uint32_t XtensaCallingConvention::GetHighIntegerReturnValueRegister()
+uint32_t XtensaDefaultCallingConvention::GetHighIntegerReturnValueRegister()
 {
 	return REG_A3;  // a3 holds high part of 64-bit return
+}
+
+/* windowed */
+
+XtensaWindowedCallingConvention::XtensaWindowedCallingConvention(Architecture* arch) : CallingConvention(arch, "windowed") {}
+
+vector<uint32_t> XtensaWindowedCallingConvention::GetIntegerArgumentRegisters()
+{
+	return vector<uint32_t> {REG_A2, REG_A3, REG_A4, REG_A5, REG_A6, REG_A7};
+}
+
+vector<uint32_t> XtensaWindowedCallingConvention::GetCallerSavedRegisters()
+{
+	return vector<uint32_t> {REG_A0, REG_A2, REG_A3, REG_A4, REG_A5, REG_A6, REG_A7};
+}
+
+vector<uint32_t> XtensaWindowedCallingConvention::GetCalleeSavedRegisters()
+{
+	return vector<uint32_t> {};
+}
+
+uint32_t XtensaWindowedCallingConvention::GetIntegerReturnValueRegister()
+{
+	return REG_A2;
+}
+
+uint32_t XtensaWindowedCallingConvention::GetHighIntegerReturnValueRegister()
+{
+	return REG_A3;
 }
 
 
@@ -491,51 +522,50 @@ extern "C"
 
 	BINARYNINJAPLUGIN bool CorePluginInit()
 	{
-		LogInfo("Xtensa Architecture Plugin loaded");
+		/*
+		 * Register Xtensa Core architecture
+		*/
 
-		// Register Xtensa Core architecture (minimal, base ISA only)
-		Architecture* xtensa_core = new XtensaArchitecture("xtensa", LittleEndian, XTENSA_OPT_NONE);
-		Architecture::Register(xtensa_core);
+		Architecture* xtensa_core_arch = new XtensaArchitecture("xtensa", LittleEndian, XTENSA_OPT_NONE);
+		Architecture::Register(xtensa_core_arch);
 
-		// Register Core calling conventions (CALL0 only, no windowed)
-		Ref<CallingConvention> coreDefaultCC = new XtensaCallingConvention(xtensa_core);
-		xtensa_core->RegisterCallingConvention(coreDefaultCC);
-		xtensa_core->SetDefaultCallingConvention(coreDefaultCC);
+		Ref<CallingConvention> xtensa_core_cc_default = new XtensaDefaultCallingConvention(xtensa_core_arch);
+		xtensa_core_arch->RegisterCallingConvention(xtensa_core_cc_default);
+		xtensa_core_arch->SetDefaultCallingConvention(xtensa_core_cc_default);
 
-		// Register Xtensa ESP32 architecture (full featured, LX6)
-		Architecture* xtensa_esp32 = new XtensaArchitecture("xtensa-esp32", LittleEndian, XTENSA_PRESET_ESP32);
-		Architecture::Register(xtensa_esp32);
+		Ref<Platform> xtensa_core_platform = new XtensaPlatform(xtensa_core_arch, "xtensa");
+		Platform::Register("xtensa", xtensa_core_platform);
 
-		// Register ESP32 calling conventions (default only - windowed calls use ILTransparentCopy)
-		Ref<CallingConvention> esp32DefaultCC = new XtensaCallingConvention(xtensa_esp32);
-		xtensa_esp32->RegisterCallingConvention(esp32DefaultCC);
-		xtensa_esp32->SetDefaultCallingConvention(esp32DefaultCC);
+		/*
+		 * Register Xtensa ESP32 architecture
+		*/
 
-		// Register Xtensa ESP8266 architecture (L106, no windowed/FP/loops)
+		Architecture* xtensa_esp32_arch = new XtensaArchitecture("xtensa-esp32", LittleEndian, XTENSA_PRESET_ESP32);
+		Architecture::Register(xtensa_esp32_arch);
+
+		Ref<CallingConvention> xtensa_esp32_cc_default = new XtensaDefaultCallingConvention(xtensa_esp32_arch);
+		xtensa_esp32_arch->RegisterCallingConvention(xtensa_esp32_cc_default);
+
+		Ref<CallingConvention> xtensa_esp32_cc_windowed = new XtensaWindowedCallingConvention(xtensa_esp32_arch);
+		xtensa_esp32_arch->RegisterCallingConvention(xtensa_esp32_cc_windowed);
+		xtensa_esp32_arch->SetDefaultCallingConvention(xtensa_esp32_cc_windowed);
+
+		Ref<Platform> xtensa_esp32_platform = new XtensaPlatform(xtensa_esp32_arch, "xtensa-esp32");
+		Platform::Register("xtensa-esp32", xtensa_esp32_platform);
+
+		/*
+		 * Register Xtensa ESP8266 architecture
+		*/
+
 		Architecture* xtensa_esp8266 = new XtensaArchitecture("xtensa-esp8266", LittleEndian, XTENSA_PRESET_ESP8266);
 		Architecture::Register(xtensa_esp8266);
 
-		// Register ESP8266 calling conventions (CALL0 only, no windowed)
-		Ref<CallingConvention> esp8266DefaultCC = new XtensaCallingConvention(xtensa_esp8266);
-		xtensa_esp8266->RegisterCallingConvention(esp8266DefaultCC);
-		xtensa_esp8266->SetDefaultCallingConvention(esp8266DefaultCC);
+		Ref<CallingConvention> xtensa_esp8266_default_cc = new XtensaDefaultCallingConvention(xtensa_esp8266);
+		xtensa_esp8266->RegisterCallingConvention(xtensa_esp8266_default_cc);
+		xtensa_esp8266->SetDefaultCallingConvention(xtensa_esp8266_default_cc);
 
-		// Register platforms
-		Ref<Platform> platformCore = new XtensaPlatform(xtensa_core, "xtensa");
-		Ref<Platform> platformEsp32 = new XtensaPlatform(xtensa_esp32, "xtensa-esp32");
-		Ref<Platform> platformEsp8266 = new XtensaPlatform(xtensa_esp8266, "xtensa-esp8266");
-
-		Platform::Register("xtensa", platformCore);
-		Platform::Register("xtensa-esp32", platformEsp32);
-		Platform::Register("xtensa-esp8266", platformEsp8266);
-
-		// Register architecture for ELF (e_machine = 94 for Xtensa)
-		// Default to ESP32 for ELF files
-		BinaryViewType::RegisterArchitecture("ELF", 94, LittleEndian, xtensa_esp32);
-
-		// Register platform for various binary view types (default to ESP32)
-		BinaryViewType::RegisterPlatform("ELF", 0, platformEsp32);
-		BinaryViewType::RegisterPlatform("Raw", 0, platformEsp32);
+		Ref<Platform> xtensa_esp8266_platform = new XtensaPlatform(xtensa_esp8266, "xtensa-esp8266");
+		Platform::Register("xtensa-esp8266", xtensa_esp8266_platform);
 
 		return true;
 	}
