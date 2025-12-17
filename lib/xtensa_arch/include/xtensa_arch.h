@@ -180,10 +180,10 @@ public:
 // Calling Convention
 //-----------------------------------------------------------------------------
 
-class XtensaCallingConvention : public CallingConvention
+class XtensaDefaultCallingConvention : public CallingConvention
 {
 public:
-    XtensaCallingConvention(Architecture* arch);
+    XtensaDefaultCallingConvention(Architecture* arch);
 
     virtual vector<uint32_t> GetIntegerArgumentRegisters() override;
     virtual vector<uint32_t> GetCallerSavedRegisters() override;

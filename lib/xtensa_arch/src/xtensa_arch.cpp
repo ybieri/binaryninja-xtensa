@@ -451,32 +451,32 @@ vector<Confidence<Ref<Type>>> XtensaArchitecture::GetIntrinsicOutputs(uint32_t i
 
 /* default */
 
-XtensaCallingConvention::XtensaCallingConvention(Architecture* arch) : CallingConvention(arch, "xtensa") {}
+XtensaDefaultCallingConvention::XtensaDefaultCallingConvention(Architecture* arch) : CallingConvention(arch, "default") {}
 
-vector<uint32_t> XtensaCallingConvention::GetIntegerArgumentRegisters()
+vector<uint32_t> XtensaDefaultCallingConvention::GetIntegerArgumentRegisters()
 {
     // Xtensa uses a2-a7 for arguments (CALL0 ABI)
     return vector<uint32_t> {REG_A2, REG_A3, REG_A4, REG_A5, REG_A6, REG_A7};
 }
 
-vector<uint32_t> XtensaCallingConvention::GetCallerSavedRegisters()
+vector<uint32_t> XtensaDefaultCallingConvention::GetCallerSavedRegisters()
 {
     // a0 (return address), a2-a11 are caller-saved
     return vector<uint32_t> {REG_A0, REG_A2, REG_A3, REG_A4, REG_A5, REG_A6, REG_A7, REG_A8, REG_A9, REG_A10, REG_A11};
 }
 
-vector<uint32_t> XtensaCallingConvention::GetCalleeSavedRegisters()
+vector<uint32_t> XtensaDefaultCallingConvention::GetCalleeSavedRegisters()
 {
     // a12-a15 are callee-saved
     return vector<uint32_t> {REG_A12, REG_A13, REG_A14, REG_A15};
 }
 
-uint32_t XtensaCallingConvention::GetIntegerReturnValueRegister()
+uint32_t XtensaDefaultCallingConvention::GetIntegerReturnValueRegister()
 {
     return REG_A2;  // a2 holds return value
 }
 
-uint32_t XtensaCallingConvention::GetHighIntegerReturnValueRegister()
+uint32_t XtensaDefaultCallingConvention::GetHighIntegerReturnValueRegister()
 {
     return REG_A3;  // a3 holds high part of 64-bit return
 }
@@ -484,7 +484,7 @@ uint32_t XtensaCallingConvention::GetHighIntegerReturnValueRegister()
 /* windowed */
 
 XtensaWindowedCallingConvention::XtensaWindowedCallingConvention(Architecture* arch) :
-    CallingConvention(arch, "xtensa-windowed")
+    CallingConvention(arch, "windowed")
 {}
 
 vector<uint32_t> XtensaWindowedCallingConvention::GetIntegerArgumentRegisters()
@@ -569,7 +569,7 @@ extern "C"
         Architecture* xtensa_core_arch = new XtensaArchitecture("xtensa", LittleEndian, XTENSA_OPT_NONE);
         Architecture::Register(xtensa_core_arch);
 
-        Ref<CallingConvention> xtensa_core_cc = new XtensaCallingConvention(xtensa_core_arch);
+        Ref<CallingConvention> xtensa_core_cc = new XtensaDefaultCallingConvention(xtensa_core_arch);
         xtensa_core_arch->RegisterCallingConvention(xtensa_core_cc);
 
         /*
@@ -588,7 +588,7 @@ extern "C"
         );
         Architecture::Register(esp32_arch);
 
-        Ref<CallingConvention> esp32_cc_default = new XtensaCallingConvention(esp32_arch);
+        Ref<CallingConvention> esp32_cc_default = new XtensaDefaultCallingConvention(esp32_arch);
         esp32_arch->RegisterCallingConvention(esp32_cc_default);
 
         Ref<CallingConvention> esp32_cc_windowed = new XtensaWindowedCallingConvention(esp32_arch);
@@ -613,7 +613,7 @@ extern "C"
         );
         Architecture::Register(esp8266_arch);
 
-        Ref<CallingConvention> esp8266_cc_default = new XtensaCallingConvention(esp8266_arch);
+        Ref<CallingConvention> esp8266_cc_default = new XtensaDefaultCallingConvention(esp8266_arch);
         esp8266_arch->RegisterCallingConvention(esp8266_cc_default);
 
         Ref<Platform> esp8266_platform = new XtensaPlatform(esp8266_arch, "esp8266");
