@@ -13,53 +13,55 @@
 
 LLIL_LIFTER(opt_boolean)
 {
-	switch (insn.id)
-	{
-	case XTENSA_INS_BT:
-	{
-		if (insn.operand_count != 2 || insn.operands[0].type != XTENSA_OP_BREG
-			|| insn.operands[1].type != XTENSA_OP_BRANCH_TARGET)
-		{
-			il.AddInstruction(il.Undefined());
-			return true;
-		}
+    switch (insn.id)
+    {
+    case XTENSA_INS_BT:
+    {
+        if (insn.operand_count != 2 ||
+            insn.operands[0].type != XTENSA_OP_BREG ||
+            insn.operands[1].type != XTENSA_OP_BRANCH_TARGET)
+        {
+            il.AddInstruction(il.Undefined());
+            return true;
+        }
 
-		uint32_t flag = FLAG_B0 + insn.operands[0].reg;
-		uint64_t target = insn.operands[1].target;
+        uint32_t flag = FLAG_B0 + insn.operands[0].reg;
+        uint64_t target = insn.operands[1].target;
 
-		// if (flag) goto target
-		LowLevelILLabel trueLabel, falseLabel;
-		il.AddInstruction(il.If(il.Flag(flag), trueLabel, falseLabel));
-		il.MarkLabel(trueLabel);
-		il.AddInstruction(il.Jump(il.ConstPointer(4, target)));
-		il.MarkLabel(falseLabel);
-		return true;
-	}
+        // if (flag) goto target
+        LowLevelILLabel trueLabel, falseLabel;
+        il.AddInstruction(il.If(il.Flag(flag), trueLabel, falseLabel));
+        il.MarkLabel(trueLabel);
+        il.AddInstruction(il.Jump(il.ConstPointer(4, target)));
+        il.MarkLabel(falseLabel);
+        return true;
+    }
 
-	case XTENSA_INS_BF:
-	{
-		if (insn.operand_count != 2 || insn.operands[0].type != XTENSA_OP_BREG
-			|| insn.operands[1].type != XTENSA_OP_BRANCH_TARGET)
-		{
-			il.AddInstruction(il.Undefined());
-			return true;
-		}
+    case XTENSA_INS_BF:
+    {
+        if (insn.operand_count != 2 ||
+            insn.operands[0].type != XTENSA_OP_BREG ||
+            insn.operands[1].type != XTENSA_OP_BRANCH_TARGET)
+        {
+            il.AddInstruction(il.Undefined());
+            return true;
+        }
 
-		uint32_t flag = FLAG_B0 + insn.operands[0].reg;
-		uint64_t target = insn.operands[1].target;
+        uint32_t flag = FLAG_B0 + insn.operands[0].reg;
+        uint64_t target = insn.operands[1].target;
 
-		// if (!flag) goto target
-		LowLevelILLabel trueLabel, falseLabel;
-		il.AddInstruction(il.If(il.Not(0, il.Flag(flag)), trueLabel, falseLabel));
-		il.MarkLabel(trueLabel);
-		il.AddInstruction(il.Jump(il.ConstPointer(4, target)));
-		il.MarkLabel(falseLabel);
-		return true;
-	}
+        // if (!flag) goto target
+        LowLevelILLabel trueLabel, falseLabel;
+        il.AddInstruction(il.If(il.Not(0, il.Flag(flag)), trueLabel, falseLabel));
+        il.MarkLabel(trueLabel);
+        il.AddInstruction(il.Jump(il.ConstPointer(4, target)));
+        il.MarkLabel(falseLabel);
+        return true;
+    }
 
-	default:
-		break;
-	}
+    default:
+        break;
+    }
 
-	return false;
+    return false;
 }

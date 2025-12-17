@@ -7,14 +7,14 @@
 using namespace BinaryNinja;
 
 #define LLIL_LIFTER(t) \
-	bool GetLowLevelILForInstruction_##t( \
-		Architecture* arch, uint64_t addr, LowLevelILFunction& il, XtensaInstruction& insn)
+    bool GetLowLevelILForInstruction_##t( \
+        Architecture* arch, uint64_t addr, LowLevelILFunction& il, XtensaInstruction& insn)
 
 #define _LLIL_LIFT(t, a, b, c, d) GetLowLevelILForInstruction_##t(a, b, c, d)
 
 #define LLIL_LIFT(t) \
-	if (_LLIL_LIFT(t, arch, addr, il, insn) == true) \
-	return true
+    if (_LLIL_LIFT(t, arch, addr, il, insn) == true) \
+    return true
 
 LLIL_LIFTER(core_mem_load);
 LLIL_LIFTER(core_mem_store);
