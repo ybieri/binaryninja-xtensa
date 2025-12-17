@@ -18,4 +18,4 @@ $ ls build/lib/xtensa_arch/libarch_xtensa.dylib
 TBD
 ```
 
-Big thanks to @emesare to help build this plugin
+Big thanks to @emesare to help write this plugin
