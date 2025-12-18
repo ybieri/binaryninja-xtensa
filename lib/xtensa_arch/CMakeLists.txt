@@ -32,7 +32,18 @@ add_library(arch_xtensa SHARED
     src/xtensa_il.cpp
 )
 
-target_link_libraries(arch_xtensa xtensa_decoder binaryninjaapi)
+if(WIN32)
+    get_target_property(BN_API_SOURCE_DIR binaryninjaapi SOURCE_DIR)
+    list(APPEND CMAKE_MODULE_PATH "${BN_API_SOURCE_DIR}/cmake")
+    find_package(BinaryNinjaCore REQUIRED)
+    target_link_libraries(arch_xtensa 
+        xtensa_decoder 
+        ${BinaryNinjaCore_LIBRARIES}
+        binaryninjaapi)
+    target_link_directories(arch_xtensa PRIVATE ${BinaryNinjaCore_LIBRARY_DIRS})
+else()
+    target_link_libraries(arch_xtensa xtensa_decoder binaryninjaapi)
+endif()
 
 target_include_directories(arch_xtensa PRIVATE
     ${PROJECT_SOURCE_DIR}/include
