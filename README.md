@@ -19,7 +19,7 @@ $ git clone https://github.com/PetoWorks/binaryninja-xtensa
 $ git clone https://github.com/Vector35/binaryninja-api
 $ cd binaryninja-xtensa
 $ mkdir build
-$ cmake -G "Visual Studio 18 2026" -A x64 -S . -B build -D BN_API_PATH="..\binaryninja-api"
+$ cmake -A x64 -S . -B build -D BN_API_PATH="..\binaryninja-api"
 $ cmake --build build --config Release
 $ ls build/lib/xtensa_arch/Release/arch_xtensa.dll
 ```
