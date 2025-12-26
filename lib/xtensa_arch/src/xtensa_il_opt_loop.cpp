@@ -26,7 +26,7 @@ LLIL_LIFTER(opt_loop)
             return true;
         }
 
-        uint32_t count_reg = insn.operands[0].reg;
+        uint32_t count_reg = REG_A0 + insn.operands[0].reg;
         uint64_t loop_end = insn.operands[1].target;
         uint64_t loop_begin = addr + insn.length;  // Next instruction
 

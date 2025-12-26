@@ -25,6 +25,7 @@ bool GetLowLevelILForInstruction(Architecture* arch, uint64_t addr, LowLevelILFu
     LLIL_LIFT(opt_interrupt);
     LLIL_LIFT(opt_loop);
     LLIL_LIFT(opt_misc);
+    LLIL_LIFT(opt_muldiv);
     LLIL_LIFT(opt_narrow);
     LLIL_LIFT(opt_sync);
     LLIL_LIFT(opt_windowed);

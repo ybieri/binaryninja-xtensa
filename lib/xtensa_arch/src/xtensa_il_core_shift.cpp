@@ -27,12 +27,11 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src = insn.operands[1].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[1].reg;
         int32_t shiftimm = insn.operands[2].imm;
         int32_t maskimm = insn.operands[3].imm;
 
-        // Validate maskimm range (1-16)
         if (maskimm < 1 || maskimm > 16)
         {
             LogWarn("EXTUI instruction at 0x%" PRIx64 " has invalid maskimm: %d", addr, maskimm);
@@ -40,21 +39,21 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // Calculate mask: (1 << maskimm) - 1
-        // For maskimm=16, we need special handling since (1<<16) - 1 = 0xFFFF for 32-bit
-        uint32_t mask;
-        if (maskimm == 16)
-        {
-            mask = 0xFFFF;
-        }
-        else
-        {
-            mask = (1u << maskimm) - 1;
-        }
+        ExprId lop;
 
-        // AR[r] = (AR[t] >> shiftimm) & mask
-        il.AddInstruction(il.SetRegister(4, dest,
-            il.And(4, il.LogicalShiftRight(4, il.Register(4, src), il.Const(4, shiftimm)), il.Const(4, mask))));
+        if (shiftimm == 0)
+            lop = il.Register(4, src);
+        else
+            lop = il.LogicalShiftRight(4, il.Register(4, src), il.Const(4, shiftimm));
+
+        uint32_t mask = (1u << maskimm) - 1;
+
+        il.AddInstruction(
+            il.SetRegister(4,
+                dest,
+                il.And(4, lop, il.Const(4, mask))
+            )
+        );
 
         return true;
     }
@@ -76,8 +75,8 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src = insn.operands[1].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[1].reg;
         int32_t shift_amount = insn.operands[2].imm;
 
         // Validate shift amount range (should be 1-31, 0 is undefined/reserved)
@@ -111,11 +110,10 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src = insn.operands[1].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[1].reg;
         int32_t shift_amount = insn.operands[2].imm;
 
-        // Validate shift amount range (0-15 per ISA spec)
         if (shift_amount < 0 || shift_amount > 15)
         {
             LogWarn("SRLI instruction at 0x%" PRIx64 " has invalid shift amount: %d", addr, shift_amount);
@@ -123,9 +121,15 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        // AR[r] = AR[t] >> sa (logical shift right, zero-fill)
         il.AddInstruction(
-            il.SetRegister(4, dest, il.LogicalShiftRight(4, il.Register(4, src), il.Const(4, shift_amount))));
+            il.SetRegister(4,
+                dest,
+                il.LogicalShiftRight(4,
+                    il.Register(4, src),
+                    il.Const(4, shift_amount)
+                )
+            )
+        );
 
         return true;
     }
@@ -147,8 +151,8 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src = insn.operands[1].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[1].reg;
         int32_t shift_amount = insn.operands[2].imm;
 
         // Validate shift amount range (0-31)
@@ -183,9 +187,9 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;  // ar
-        uint32_t src1 = insn.operands[1].reg;  // as (high bits)
-        uint32_t src2 = insn.operands[2].reg;  // at (low bits)
+        uint32_t dest = REG_A0 + insn.operands[0].reg;  // ar
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;  // as (high bits)
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;  // at (low bits)
 
         // SRC: AR[r] = ((AR[s] << 32) | AR[t]) >> SAR
         // Equivalent to: (AR[s] << (32 - SAR)) | (AR[t] >> SAR)
@@ -225,8 +229,8 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;  // ar
-        uint32_t src = insn.operands[1].reg;   // at
+        uint32_t dest = REG_A0 + insn.operands[0].reg;  // ar
+        uint32_t src = REG_A0 + insn.operands[1].reg;   // at
 
         // SRA uses SAR[5:0] for shift amount (only low 5 bits matter for 32-bit shift)
         il.AddInstruction(il.SetRegister(4, dest,
@@ -251,33 +255,34 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;  // ar (destination)
-        uint32_t src = insn.operands[1].reg;   // as (source)
-
-        // SLL uses SAR[5:0] for shift amount
-        // If shift amount >= 32, result is 0
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[1].reg;
 
         uint32_t temp_shift = LLIL_TEMP(1);
 
-        // temp_shift = SAR & 0x3F
-        il.AddInstruction(il.SetRegister(4, temp_shift, il.And(4, il.Register(4, REG_SAR), il.Const(4, 0x3F))));
-
-        LowLevelILLabel shiftLabel, zeroLabel, doneLabel;
-
-        // if (temp_shift < 32)
+        // shift = sar & 0b11111
         il.AddInstruction(
-            il.If(il.CompareUnsignedLessThan(4, il.Register(4, temp_shift), il.Const(4, 32)), shiftLabel, zeroLabel));
+            il.SetRegister(4,
+                temp_shift,
+                il.And(4,
+                    il.Register(4, REG_SAR),
+                    il.Const(4, 0b11111))
+                )
+        );
 
-        // Shift branch: dest = src << temp_shift
-        il.MarkLabel(shiftLabel);
-        il.AddInstruction(il.SetRegister(4, dest, il.ShiftLeft(4, il.Register(4, src), il.Register(4, temp_shift))));
-        il.AddInstruction(il.Goto(doneLabel));
-
-        // Zero branch: dest = 0
-        il.MarkLabel(zeroLabel);
-        il.AddInstruction(il.SetRegister(4, dest, il.Const(4, 0)));
-
-        il.MarkLabel(doneLabel);
+        // dest = src << (32 - shift)
+        il.AddInstruction(
+            il.SetRegister(4,
+                dest,
+                il.ShiftLeft(4,
+                    il.Register(4, src),
+                    il.Sub(4,
+                        il.Const(4, 32),
+                        il.Register(4, temp_shift)
+                    )
+                )
+            )
+        );
 
         return true;
     }
@@ -298,8 +303,8 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;  // ar
-        uint32_t src = insn.operands[1].reg;   // at
+        uint32_t dest = REG_A0 + insn.operands[0].reg;  // ar
+        uint32_t src = REG_A0 + insn.operands[1].reg;   // at
 
         // SRL uses SAR[5:0] for shift amount (only low 5 bits matter for 32-bit shift)
         il.AddInstruction(il.SetRegister(4, dest,
@@ -327,7 +332,7 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[0].reg;
 
         // SAR = 32 - ((AR[s] & 3) << 3)
         il.AddInstruction(il.SetRegister(4, REG_SAR,
@@ -352,7 +357,7 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[0].reg;
 
         // SAR = (AR[s] & 3) << 3
         il.AddInstruction(il.SetRegister(
@@ -376,7 +381,7 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[0].reg;
 
         // SAR = AR[s] & 0x1F (only low 5 bits)
         il.AddInstruction(il.SetRegister(4, REG_SAR, il.And(4, il.Register(4, src), il.Const(4, 0x1F))));
@@ -399,7 +404,7 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[0].reg;
 
         // SAR = 32 - (AR[s] & 0x1F)
         il.AddInstruction(
@@ -423,7 +428,7 @@ LLIL_LIFTER(core_shift)
             return true;
         }
 
-        int32_t imm = insn.operands[0].imm;
+        int32_t imm = REG_A0 + insn.operands[0].imm;
 
         // SAR = imm (0-31)
         il.AddInstruction(il.SetRegister(4, REG_SAR, il.Const(4, imm & 0x1F)));

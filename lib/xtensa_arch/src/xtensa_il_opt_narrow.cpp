@@ -27,9 +27,9 @@ LLIL_LIFTER(opt_narrow)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src1 = insn.operands[1].reg;
-        uint32_t src2 = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;
 
         il.AddInstruction(il.SetRegister(4, dest, il.Add(4, il.Register(4, src1), il.Register(4, src2))));
 
@@ -52,8 +52,8 @@ LLIL_LIFTER(opt_narrow)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src = insn.operands[1].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[1].reg;
         int32_t imm = insn.operands[2].imm;
 
         il.AddInstruction(il.SetRegister(4, dest, il.Add(4, il.Register(4, src), il.Const(4, imm))));
@@ -82,7 +82,7 @@ LLIL_LIFTER(opt_narrow)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         uint64_t target_addr = insn.operands[1].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -118,7 +118,7 @@ LLIL_LIFTER(opt_narrow)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         uint64_t target_addr = insn.operands[1].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -159,7 +159,7 @@ LLIL_LIFTER(opt_narrow)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
         uint32_t base = insn.operands[1].mem.base;
         int32_t offset = insn.operands[1].mem.offset;
 
@@ -182,8 +182,8 @@ LLIL_LIFTER(opt_narrow)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src = insn.operands[1].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[1].reg;
 
         // Simple register-to-register move
         il.AddInstruction(il.SetRegister(4, dest, il.Register(4, src)));
@@ -205,7 +205,7 @@ LLIL_LIFTER(opt_narrow)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
         int32_t imm = insn.operands[1].imm;
 
         // Validate immediate range (-32 to 95)
@@ -255,7 +255,7 @@ LLIL_LIFTER(opt_narrow)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[0].reg;
         uint32_t base = insn.operands[1].mem.base;
         int32_t offset = insn.operands[1].mem.offset;
 

@@ -34,7 +34,7 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         uint64_t target_addr = insn.operands[1].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -69,7 +69,7 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         uint64_t target_addr = insn.operands[1].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -104,7 +104,7 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         uint64_t target_addr = insn.operands[1].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -140,7 +140,7 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         uint64_t target_addr = insn.operands[1].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -181,7 +181,7 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         int32_t imm = insn.operands[1].imm;
         uint64_t target_addr = insn.operands[2].target;
 
@@ -223,7 +223,7 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         int32_t imm = insn.operands[1].imm;
         uint64_t target_addr = insn.operands[2].target;
 
@@ -265,7 +265,7 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         int32_t imm = insn.operands[1].imm;
         uint64_t target_addr = insn.operands[2].target;
 
@@ -308,7 +308,7 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         int32_t imm = insn.operands[1].imm;
         uint64_t target_addr = insn.operands[2].target;
 
@@ -351,7 +351,7 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         uint32_t imm = insn.operands[1].imm;
         uint64_t target_addr = insn.operands[2].target;
 
@@ -394,7 +394,7 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         uint32_t imm = insn.operands[1].imm;
         uint64_t target_addr = insn.operands[2].target;
 
@@ -437,7 +437,7 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         int32_t bit_pos = insn.operands[1].imm;
         uint64_t target_addr = insn.operands[2].target;
 
@@ -449,11 +449,21 @@ LLIL_LIFTER(core_branch)
 
         LowLevelILLabel trueLabel, falseLabel;
 
-        il.AddInstruction(il.If(
-            il.CompareEqual(4,
-                il.And(4, il.LogicalShiftRight(4, il.Register(4, s), il.Const(4, bit_pos)), il.Const(4, 1)),
-                il.Const(4, 0)),
-            trueLabel, falseLabel));
+        il.AddInstruction(
+            il.If(
+                il.CompareEqual(4,
+                    il.And(4,
+                        il.LogicalShiftRight(4,
+                            il.Register(4, s),
+                            il.Const(4, bit_pos)
+                        ),
+                        il.Const(4, 1)
+                    ),
+                    il.Const(4, 0)
+                ),
+                trueLabel, falseLabel
+            )
+        );
 
         il.MarkLabel(trueLabel);
         il.AddInstruction(il.Jump(il.ConstPointer(4, target_addr)));
@@ -489,7 +499,7 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
         int32_t bit_pos = insn.operands[1].imm;
         uint64_t target_addr = insn.operands[2].target;
 
@@ -501,11 +511,21 @@ LLIL_LIFTER(core_branch)
 
         LowLevelILLabel trueLabel, falseLabel;
 
-        il.AddInstruction(il.If(
-            il.CompareEqual(4,
-                il.And(4, il.LogicalShiftRight(4, il.Register(4, s), il.Const(4, bit_pos)), il.Const(4, 1)),
-                il.Const(4, 1)),
-            trueLabel, falseLabel));
+        il.AddInstruction(
+            il.If(
+                il.CompareEqual(4,
+                    il.And(4,
+                        il.LogicalShiftRight(4,
+                            il.Register(4, s),
+                            il.Const(4, bit_pos)
+                        ),
+                        il.Const(4, 1)
+                    ),
+                    il.Const(4, 1)
+                ),
+                trueLabel, falseLabel
+            )
+        );
 
         il.MarkLabel(trueLabel);
         il.AddInstruction(il.Jump(il.ConstPointer(4, target_addr)));
@@ -541,8 +561,8 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
-        uint32_t t = insn.operands[1].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
+        uint32_t t = REG_A0 + insn.operands[1].reg;
         uint64_t target_addr = insn.operands[2].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -583,8 +603,8 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
-        uint32_t t = insn.operands[1].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
+        uint32_t t = REG_A0 + insn.operands[1].reg;
         uint64_t target_addr = insn.operands[2].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -625,8 +645,8 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
-        uint32_t t = insn.operands[1].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
+        uint32_t t = REG_A0 + insn.operands[1].reg;
         uint64_t target_addr = insn.operands[2].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -668,8 +688,8 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
-        uint32_t t = insn.operands[1].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
+        uint32_t t = REG_A0 + insn.operands[1].reg;
         uint64_t target_addr = insn.operands[2].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -711,8 +731,8 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
-        uint32_t t = insn.operands[1].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
+        uint32_t t = REG_A0 + insn.operands[1].reg;
         uint64_t target_addr = insn.operands[2].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -754,8 +774,8 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
-        uint32_t t = insn.operands[1].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
+        uint32_t t = REG_A0 + insn.operands[1].reg;
         uint64_t target_addr = insn.operands[2].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -787,13 +807,12 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
-        uint32_t t = insn.operands[1].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
+        uint32_t t = REG_A0 + insn.operands[1].reg;
         uint64_t target_addr = insn.operands[2].target;
 
         LowLevelILLabel trueLabel, falseLabel;
 
-        // Branch if (AR[s] & AR[t]) != 0
         il.AddInstruction(
             il.If(
                 il.CompareNotEqual(4,
@@ -841,8 +860,8 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
-        uint32_t t = insn.operands[1].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
+        uint32_t t = REG_A0 + insn.operands[1].reg;
         uint64_t target_addr = insn.operands[2].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -884,8 +903,8 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
-        uint32_t t = insn.operands[1].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
+        uint32_t t = REG_A0 + insn.operands[1].reg;
         uint64_t target_addr = insn.operands[2].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -926,8 +945,8 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
-        uint32_t t = insn.operands[1].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
+        uint32_t t = REG_A0 + insn.operands[1].reg;
         uint64_t target_addr = insn.operands[2].target;
 
         LowLevelILLabel trueLabel, falseLabel;
@@ -969,23 +988,22 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
-        uint32_t t = insn.operands[1].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
+        uint32_t t = REG_A0 + insn.operands[1].reg;
         uint64_t target_addr = insn.operands[2].target;
 
         LowLevelILLabel trueLabel, falseLabel;
 
         il.AddInstruction(
             il.If(
-                il.CompareEqual(4,
-                    il.And(4,
-                        il.LogicalShiftRight(4,
-                            il.Register(4, s),
-                            il.And(4, il.Register(4, t), il.Const(4, 0x1F))
-                        ),
-                        il.Const(4, 1)
-                    ),
-                    il.Const(4, 0)
+                il.Not(4,
+                    il.TestBit(4,
+                        il.Register(4, s),
+                        il.And(4,
+                            il.Register(4, t),
+                            il.Const(4, 0b11111)
+                        )
+                    )
                 ),
                 trueLabel, falseLabel
             )
@@ -1015,24 +1033,20 @@ LLIL_LIFTER(core_branch)
             return true;
         }
 
-        uint32_t s = insn.operands[0].reg;
-        uint32_t t = insn.operands[1].reg;
+        uint32_t s = REG_A0 + insn.operands[0].reg;
+        uint32_t t = REG_A0 + insn.operands[1].reg;
         uint64_t target_addr = insn.operands[2].target;
 
         LowLevelILLabel trueLabel, falseLabel;
 
-        // Branch if bit at position (AR[t] & 0x1F) in AR[s] is set
         il.AddInstruction(
             il.If(
-                il.CompareNotEqual(4,
+                il.TestBit(4,
+                    il.Register(4, s),
                     il.And(4,
-                        il.LogicalShiftRight(4,
-                            il.Register(4, s),
-                            il.And(4, il.Register(4, t), il.Const(4, 0x1F))
-                        ),
-                        il.Const(4, 1)
-                    ),
-                    il.Const(4, 0)
+                        il.Register(4, s),
+                        il.Const(4, 0b11111)
+                    )
                 ),
                 trueLabel, falseLabel
             )

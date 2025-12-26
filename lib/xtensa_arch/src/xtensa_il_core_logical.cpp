@@ -28,9 +28,9 @@ LLIL_LIFTER(core_logical)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src1 = insn.operands[1].reg;
-        uint32_t src2 = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;
 
         il.AddInstruction(il.SetRegister(4, dest, il.And(4, il.Register(4, src1), il.Register(4, src2))));
 
@@ -54,9 +54,9 @@ LLIL_LIFTER(core_logical)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src1 = insn.operands[1].reg;
-        uint32_t src2 = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;
 
         il.AddInstruction(il.SetRegister(4, dest, il.Or(4, il.Register(4, src1), il.Register(4, src2))));
 
@@ -80,9 +80,9 @@ LLIL_LIFTER(core_logical)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src1 = insn.operands[1].reg;
-        uint32_t src2 = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;
 
         il.AddInstruction(il.SetRegister(4, dest, il.Xor(4, il.Register(4, src1), il.Register(4, src2))));
 

@@ -27,9 +27,9 @@ LLIL_LIFTER(opt_misc)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t s = insn.operands[1].reg;
-        uint32_t t = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[1].reg;
+        uint32_t t = REG_A0 + insn.operands[2].reg;
 
         LowLevelILLabel trueLabel, falseLabel, doneLabel;
 
@@ -66,9 +66,9 @@ LLIL_LIFTER(opt_misc)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t s = insn.operands[1].reg;
-        uint32_t t = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[1].reg;
+        uint32_t t = REG_A0 + insn.operands[2].reg;
 
         LowLevelILLabel trueLabel, falseLabel, doneLabel;
 
@@ -105,9 +105,9 @@ LLIL_LIFTER(opt_misc)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t s = insn.operands[1].reg;
-        uint32_t t = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[1].reg;
+        uint32_t t = REG_A0 + insn.operands[2].reg;
 
         LowLevelILLabel trueLabel, falseLabel, doneLabel;
 
@@ -144,9 +144,9 @@ LLIL_LIFTER(opt_misc)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t s = insn.operands[1].reg;
-        uint32_t t = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t s = REG_A0 + insn.operands[1].reg;
+        uint32_t t = REG_A0 + insn.operands[2].reg;
 
         LowLevelILLabel trueLabel, falseLabel, doneLabel;
 
@@ -191,8 +191,8 @@ LLIL_LIFTER(opt_misc)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src = insn.operands[1].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[1].reg;
         int32_t imm = insn.operands[2].imm;  // field_size - 1
 
         // Calculate actual field size

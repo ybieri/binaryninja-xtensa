@@ -49,7 +49,7 @@ LLIL_LIFTER(core_call)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[0].reg;
 
         il.AddInstruction(il.Call(il.Register(4, src)));
 

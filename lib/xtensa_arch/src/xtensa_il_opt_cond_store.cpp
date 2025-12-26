@@ -26,7 +26,7 @@ LLIL_LIFTER(opt_cond_store)
             return true;
         }
 
-        uint32_t t = insn.operands[0].reg;  // Value to store / destination for old value
+        uint32_t t = REG_A0 + insn.operands[0].reg;  // Value to store / destination for old value
         uint32_t base = insn.operands[1].mem.base;
         int32_t offset = insn.operands[1].mem.offset;
 

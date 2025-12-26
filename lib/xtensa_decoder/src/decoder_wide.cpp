@@ -379,7 +379,9 @@ static inline int _wide_op0_00(uint32_t raw, uint64_t addr, XtensaInstruction* i
             insn->id = XTENSA_INS_SLLI;
             add_reg_operand(insn, r);
             add_reg_operand(insn, s);
-            add_imm_operand(insn, t | ((op2 & 1) << 4));
+            uint32_t shift_amount = t | ((op2 & 1) << 4);
+            shift_amount = 32 - shift_amount;
+            add_imm_operand(insn, shift_amount);
             return 3;
         }
         if (op2 == 0b0010 || op2 == 0b0011)

@@ -22,7 +22,7 @@ enum XtensaRegister
     REG_A12, REG_A13, REG_A14, REG_A15,
 
     // Program Counter
-    REG_PC = 0,
+    REG_PC,
 
     // Shift Amount Register
     REG_SAR,

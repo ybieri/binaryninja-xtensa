@@ -1,3 +1,4 @@
+#include "xtensa_arch.h"
 #include "xtensa_il.h"
 
 /*
@@ -27,9 +28,9 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src1 = insn.operands[1].reg;
-        uint32_t src2 = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;
 
         il.AddInstruction(
             il.SetRegister(4,
@@ -61,11 +62,10 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src1 = insn.operands[1].reg;
-        uint32_t src2 = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;
 
-        // AR[r] = (AR[s] << 1) + AR[t]
         il.AddInstruction(
             il.SetRegister(4,
                 dest,
@@ -99,11 +99,10 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src1 = insn.operands[1].reg;
-        uint32_t src2 = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;
 
-        // AR[r] = (AR[s] << 2) + AR[t]
         il.AddInstruction(
             il.SetRegister(4,
                 dest,
@@ -137,11 +136,10 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src1 = insn.operands[1].reg;
-        uint32_t src2 = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;
 
-        // AR[r] = (AR[s] << 3) + AR[t]
         il.AddInstruction(
             il.SetRegister(4,
                 dest,
@@ -175,9 +173,9 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src1 = insn.operands[1].reg;
-        uint32_t src2 = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;
 
         il.AddInstruction(
             il.SetRegister(4,
@@ -200,19 +198,19 @@ LLIL_LIFTER(core_arithmetic)
             il.AddInstruction(il.Undefined());
             return true;
         }
-        if (insn.operands[0].type != XTENSA_OP_REG || insn.operands[1].type != XTENSA_OP_REG
-            || insn.operands[2].type != XTENSA_OP_REG)
+        if (insn.operands[0].type != XTENSA_OP_REG ||
+            insn.operands[1].type != XTENSA_OP_REG ||
+            insn.operands[2].type != XTENSA_OP_REG)
         {
             LogWarn("SUBX2 instruction at 0x%" PRIx64 " has non-register operands", addr);
             il.AddInstruction(il.Undefined());
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src1 = insn.operands[1].reg;
-        uint32_t src2 = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;
 
-        // AR[r] = (AR[s] << 1) - AR[t]
         il.AddInstruction(
             il.SetRegister(4,
                 dest,
@@ -246,11 +244,10 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src1 = insn.operands[1].reg;
-        uint32_t src2 = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;
 
-        // AR[r] = (AR[s] << 2) - AR[t]
         il.AddInstruction(
             il.SetRegister(4,
                 dest,
@@ -284,11 +281,10 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src1 = insn.operands[1].reg;
-        uint32_t src2 = insn.operands[2].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
+        uint32_t src2 = REG_A0 + insn.operands[2].reg;
 
-        // AR[r] = (AR[s] << 3) - AR[t]
         il.AddInstruction(
             il.SetRegister(4,
                 dest,
@@ -320,11 +316,10 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src = insn.operands[1].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
 
-        // AR[r] = 0 - AR[t]
-        il.AddInstruction(il.SetRegister(4, dest, il.Neg(4, il.Register(4, src))));
+        il.AddInstruction(il.SetRegister(4, dest, il.Neg(4, il.Register(4, src1))));
 
         return true;
     }
@@ -344,28 +339,28 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src = insn.operands[1].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
 
-        // AR[r] = if AR[t]31 then -AR[t] else AR[t]
-        // Implement using control flow: if (src < 0) dest = -src; else dest = src;
         LowLevelILLabel trueLabel, falseLabel, doneLabel;
 
-        // Compare src with 0
         il.AddInstruction(
-            il.If(il.CompareSignedLessThan(4, il.Register(4, src), il.Const(4, 0)), trueLabel, falseLabel)
+            il.If(
+                il.CompareSignedLessThan(4,
+                    il.Register(4, src1),
+                    il.Const(4, 0)
+                ),
+                trueLabel, falseLabel
+            )
         );
 
-        // True branch: dest = -src
         il.MarkLabel(trueLabel);
-        il.AddInstruction(il.SetRegister(4, dest, il.Neg(4, il.Register(4, src))));
+        il.AddInstruction(il.SetRegister(4, dest, il.Neg(4, il.Register(4, src1))));
         il.AddInstruction(il.Goto(doneLabel));
 
-        // False branch: dest = src
         il.MarkLabel(falseLabel);
-        il.AddInstruction(il.SetRegister(4, dest, il.Register(4, src)));
+        il.AddInstruction(il.SetRegister(4, dest, il.Register(4, src1)));
 
-        // Done label
         il.MarkLabel(doneLabel);
 
         return true;
@@ -388,11 +383,11 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src = insn.operands[1].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
         int32_t imm = insn.operands[2].imm;
 
-        il.AddInstruction(il.SetRegister(4, dest, il.Add(4, il.Register(4, src), il.Const(4, imm))));
+        il.AddInstruction(il.SetRegister(4, dest, il.Add(4, il.Register(4, src1), il.Const(4, imm))));
 
         return true;
     }
@@ -414,11 +409,11 @@ LLIL_LIFTER(core_arithmetic)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
-        uint32_t src = insn.operands[1].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
+        uint32_t src1 = REG_A0 + insn.operands[1].reg;
         int32_t imm = insn.operands[2].imm;
 
-        il.AddInstruction(il.SetRegister(4, dest, il.Add(4, il.Register(4, src), il.Const(4, imm))));
+        il.AddInstruction(il.SetRegister(4, dest, il.Add(4, il.Register(4, src1), il.Const(4, imm))));
 
         return true;
     }

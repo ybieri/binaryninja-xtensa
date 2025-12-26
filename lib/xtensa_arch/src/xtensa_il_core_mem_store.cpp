@@ -26,7 +26,7 @@ LLIL_LIFTER(core_mem_store)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[0].reg;
         uint32_t base = insn.operands[1].mem.base;
         int32_t offset = insn.operands[1].mem.offset;
 
@@ -51,7 +51,7 @@ LLIL_LIFTER(core_mem_store)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[0].reg;
         uint32_t base = insn.operands[1].mem.base;
         int32_t offset = insn.operands[1].mem.offset;
 
@@ -76,7 +76,7 @@ LLIL_LIFTER(core_mem_store)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[0].reg;
         uint32_t base = insn.operands[1].mem.base;
         int32_t offset = insn.operands[1].mem.offset;
 
@@ -101,7 +101,7 @@ LLIL_LIFTER(core_mem_store)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;  // Floating-point register ft (stored in reg field)
+        uint32_t src = REG_A0 + insn.operands[0].reg;  // Floating-point register ft (stored in reg field)
         uint32_t base = insn.operands[1].mem.base;
         int32_t offset = insn.operands[1].mem.offset;
 

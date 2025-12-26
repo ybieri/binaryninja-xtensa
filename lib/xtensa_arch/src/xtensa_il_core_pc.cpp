@@ -18,7 +18,7 @@ LLIL_LIFTER(core_pc)
         if (insn.operand_count < 2)
             return false;
 
-        uint32_t at = insn.operands[0].reg;
+        uint32_t at = REG_A0 + insn.operands[0].reg;
         uint32_t sr = insn.operands[1].sreg;
 
         // at = __rsr(sr)
@@ -33,7 +33,7 @@ LLIL_LIFTER(core_pc)
         if (insn.operand_count < 2)
             return false;
 
-        uint32_t at = insn.operands[0].reg;
+        uint32_t at = REG_A0 + insn.operands[0].reg;
         uint32_t sr = insn.operands[1].sreg;
 
         // __wsr(sr, at)
@@ -48,7 +48,7 @@ LLIL_LIFTER(core_pc)
         if (insn.operand_count < 2)
             return false;
 
-        uint32_t at = insn.operands[0].reg;
+        uint32_t at = REG_A0 + insn.operands[0].reg;
         uint32_t sr = insn.operands[1].sreg;
 
         // at = __xsr(sr, at)

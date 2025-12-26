@@ -75,79 +75,77 @@ int decode_narrow(const uint8_t* data, uint64_t addr, XtensaInstruction* insn, u
     }
     case 0x0C:
     {
-        if ((t & 0x08) == 0)
+        if ((t & 0b1000) == 0b0000)
         {
             insn->id = XTENSA_INS_MOVI_N;
             insn->format = XTENSA_FMT_RI7;
             add_reg_operand(insn, s);
-            int32_t imm = r | ((t & 0x07) << 4);
-            if (imm >= 96)
-            {
-                imm = imm - 128;
-            }
+            int32_t imm = r | ((t & 0b111) << 4);
+            if (((imm >> 5) & 0b11) == 0b11)
+                imm = sign_extend_operand(0b10000000 | imm, 8);
             add_imm_operand(insn, imm);
             return 2;
         }
-        else
+        else if ((t & 0b1100) == 0b1100)
         {
+            insn->id = XTENSA_INS_BNEZ_N;
             insn->format = XTENSA_FMT_RI6;
             add_reg_operand(insn, s);
-            uint32_t imm6 = r | ((t & 0x03) << 4);
-            uint64_t target = addr + imm6 + 4;
+            uint64_t target = addr + (((t & 0b11) << 4) | r) + 4;
             add_branch_target_operand(insn, target);
-
-            if (t & 0x04)
-            {
-                insn->id = XTENSA_INS_BNEZ_N;
-            }
-            else
-            {
-                insn->id = XTENSA_INS_BEQZ_N;
-            }
-
+            return 2;
+        }
+        else if ((t & 0b1100) == 0b1000)
+        {
+            insn->id = XTENSA_INS_BEQZ_N;
+            insn->format = XTENSA_FMT_RI6;
+            add_reg_operand(insn, s);
+            uint64_t target = addr + (((t & 0b11) << 4) | r) + 4;
+            add_branch_target_operand(insn, target);
             return 2;
         }
     }
 
     case 0x0D:
     {
-        insn->format = XTENSA_FMT_RRRN;
-
         if (r == 0)
         {
             insn->id = XTENSA_INS_MOV_N;
+            insn->format = XTENSA_FMT_RRRN;
             add_reg_operand(insn, t);
             add_reg_operand(insn, s);
             return 2;
         }
-        else if (r == 15)
+        else if (r == 15 && t == 2)
         {
-            if (t == 2)
-            {
-                insn->id = XTENSA_INS_BREAK_N;
-                add_imm_operand(insn, s);
-                return 2;
-            }
-            else if (s == 0)
-            {
-                switch (t)
-                {
-                case 0:
-                    insn->id = XTENSA_INS_RET_N;
-                    return 2;
-                case 1:
-                    insn->id = XTENSA_INS_RETW_N;
-                    return 2;
-                case 3:
-                    insn->id = XTENSA_INS_NOP_N;
-                    return 2;
-                case 6:
-                    insn->id = XTENSA_INS_ILL_N;
-                    return 2;
-                default:
-                    break;
-                }
-            }
+            insn->id = XTENSA_INS_BREAK_N;
+            insn->format = XTENSA_FMT_RRRN;
+            add_imm_operand(insn, s);
+            return 2;
+        }
+        else if (r == 15 && s == 0 && t == 0)
+        {
+            insn->id = XTENSA_INS_RET_N;
+            insn->format = XTENSA_FMT_RRRN;
+            return 2;
+        }
+        else if (r == 15 && s == 0 && t == 1)
+        {
+            insn->id = XTENSA_INS_RETW_N;
+            insn->format = XTENSA_FMT_RRRN;
+            return 2;
+        }
+        else if (r == 15 && s == 0 && t == 3)
+        {
+            insn->id = XTENSA_INS_NOP_N;
+            insn->format = XTENSA_FMT_RRRN;
+            return 2;
+        }
+        else if (r == 15 && s == 0 && t == 6)
+        {
+            insn->id = XTENSA_INS_ILL_N;
+            insn->format = XTENSA_FMT_RRRN;
+            return 2;
         }
     }
     default:

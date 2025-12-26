@@ -96,7 +96,7 @@ LLIL_LIFTER(opt_windowed)
             return true;
         }
 
-        uint32_t stack_reg = insn.operands[0].reg;
+        uint32_t stack_reg = REG_A0 + insn.operands[0].reg;
         int32_t framesize = insn.operands[1].imm;
 
         il.AddInstruction(il.SetRegister(4, stack_reg, il.Sub(4, il.Register(4, stack_reg), il.Const(4, framesize))));
@@ -188,7 +188,7 @@ LLIL_LIFTER(opt_windowed)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[0].reg;
 
         // Save call target to temp before window rotation (src reg may be overwritten)
         uint32_t call_target_temp = LLIL_TEMP(16);
@@ -216,7 +216,7 @@ LLIL_LIFTER(opt_windowed)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[0].reg;
 
         // Save call target to temp before window rotation (src reg may be overwritten)
         uint32_t call_target_temp = LLIL_TEMP(16);
@@ -244,7 +244,7 @@ LLIL_LIFTER(opt_windowed)
             return true;
         }
 
-        uint32_t src = insn.operands[0].reg;
+        uint32_t src = REG_A0 + insn.operands[0].reg;
 
         // Save call target to temp before window rotation (src reg may be overwritten)
         uint32_t call_target_temp = LLIL_TEMP(16);

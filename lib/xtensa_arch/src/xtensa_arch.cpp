@@ -376,9 +376,10 @@ string XtensaArchitecture::GetIntrinsicName(uint32_t intrinsic)
 
 vector<uint32_t> XtensaArchitecture::GetAllIntrinsics()
 {
-    return vector<uint32_t> {ARCH_INTRINSIC_RSR, ARCH_INTRINSIC_WSR, ARCH_INTRINSIC_XSR, ARCH_INTRINSIC_ISYNC,
-        ARCH_INTRINSIC_RSYNC, ARCH_INTRINSIC_ESYNC, ARCH_INTRINSIC_DSYNC, ARCH_INTRINSIC_MEMW, ARCH_INTRINSIC_EXTW,
-        ARCH_INTRINSIC_S32C1I};
+    return vector<uint32_t> {
+        ARCH_INTRINSIC_RSR, ARCH_INTRINSIC_WSR, ARCH_INTRINSIC_XSR, ARCH_INTRINSIC_ISYNC,
+        ARCH_INTRINSIC_RSYNC, ARCH_INTRINSIC_ESYNC, ARCH_INTRINSIC_DSYNC, ARCH_INTRINSIC_MEMW,
+        ARCH_INTRINSIC_EXTW, ARCH_INTRINSIC_S32C1I};
 }
 
 vector<NameAndType> XtensaArchitecture::GetIntrinsicInputs(uint32_t intrinsic)

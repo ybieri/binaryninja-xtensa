@@ -26,7 +26,7 @@ LLIL_LIFTER(core_move)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
         int32_t imm = insn.operands[1].imm;
 
         il.AddInstruction(il.SetRegister(4, dest, il.Const(4, imm)));
@@ -51,9 +51,9 @@ LLIL_LIFTER(core_move)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;  // ar
-        uint32_t src = insn.operands[1].reg;   // as
-        uint32_t cond = insn.operands[2].reg;  // at (tested for zero)
+        uint32_t dest = REG_A0 + insn.operands[0].reg;  // ar
+        uint32_t src = REG_A0 + insn.operands[1].reg;   // as
+        uint32_t cond = REG_A0 + insn.operands[2].reg;  // at (tested for zero)
 
         // Conditional move: if (AR[at] == 0) AR[ar] = AR[as]
         LowLevelILLabel trueLabel, falseLabel, doneLabel;
@@ -93,9 +93,9 @@ LLIL_LIFTER(core_move)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;  // ar
-        uint32_t src = insn.operands[1].reg;   // as
-        uint32_t cond = insn.operands[2].reg;  // at (tested for non-zero)
+        uint32_t dest = REG_A0 + insn.operands[0].reg;  // ar
+        uint32_t src = REG_A0 + insn.operands[1].reg;   // as
+        uint32_t cond = REG_A0 + insn.operands[2].reg;  // at (tested for non-zero)
 
         // Conditional move: if (AR[at] != 0) AR[ar] = AR[as]
         LowLevelILLabel trueLabel, falseLabel, doneLabel;
@@ -135,9 +135,9 @@ LLIL_LIFTER(core_move)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;  // ar
-        uint32_t src = insn.operands[1].reg;   // as
-        uint32_t cond = insn.operands[2].reg;  // at (tested for < 0)
+        uint32_t dest = REG_A0 + insn.operands[0].reg;  // ar
+        uint32_t src = REG_A0 + insn.operands[1].reg;   // as
+        uint32_t cond = REG_A0 + insn.operands[2].reg;  // at (tested for < 0)
 
         // Conditional move: if (AR[at] < 0) AR[ar] = AR[as]
         LowLevelILLabel trueLabel, falseLabel, doneLabel;
@@ -175,9 +175,9 @@ LLIL_LIFTER(core_move)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;  // ar
-        uint32_t src = insn.operands[1].reg;   // as
-        uint32_t cond = insn.operands[2].reg;  // at (tested for >= 0)
+        uint32_t dest = REG_A0 + insn.operands[0].reg;  // ar
+        uint32_t src = REG_A0 + insn.operands[1].reg;   // as
+        uint32_t cond = REG_A0 + insn.operands[2].reg;  // at (tested for >= 0)
 
         // Conditional move: if (AR[at] >= 0) AR[ar] = AR[as]
         LowLevelILLabel trueLabel, falseLabel, doneLabel;

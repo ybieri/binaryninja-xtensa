@@ -26,7 +26,7 @@ LLIL_LIFTER(core_mem_load)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
         uint32_t base = insn.operands[1].mem.base;
         int32_t offset = insn.operands[1].mem.offset;
 
@@ -52,7 +52,7 @@ LLIL_LIFTER(core_mem_load)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
         uint32_t base = insn.operands[1].mem.base;
         int32_t offset = insn.operands[1].mem.offset;
 
@@ -78,7 +78,7 @@ LLIL_LIFTER(core_mem_load)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
         uint32_t base = insn.operands[1].mem.base;
         int32_t offset = insn.operands[1].mem.offset;
 
@@ -104,7 +104,7 @@ LLIL_LIFTER(core_mem_load)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
         uint32_t base = insn.operands[1].mem.base;
         int32_t offset = insn.operands[1].mem.offset;
 
@@ -128,7 +128,7 @@ LLIL_LIFTER(core_mem_load)
             return true;
         }
 
-        uint32_t dest = insn.operands[0].reg;
+        uint32_t dest = REG_A0 + insn.operands[0].reg;
         uint64_t target_addr = insn.operands[1].target;
 
         il.AddInstruction(il.SetRegister(4, dest, il.Load(4, il.Const(4, target_addr))));
